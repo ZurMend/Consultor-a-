@@ -3,7 +3,6 @@ const nodemailer = require('nodemailer');
 const app = express();
 app.use(express.json());
 
-// Configuración del correo (Usa variables de entorno en producción)
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -17,7 +16,7 @@ app.post('/registro', (req, res) => {
     
     // 1. Aquí iría la consulta SQL para guardar en la BD
     
-    // 2. Enviar correo automático
+
     const mailOptions = {
         from: 'zurzodiaco@gmail.com',
         to: correo,
