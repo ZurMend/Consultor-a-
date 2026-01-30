@@ -19,7 +19,7 @@ app.post('/registro', (req, res) => {
     
     // 2. Enviar correo automático
     const mailOptions = {
-        from: 'tu_correo@gmail.com',
+        from: 'zurzodiaco@gmail.com',
         to: correo,
         subject: 'Bienvenido a la Consultoría',
         text: `Hola ${nombre}, en un momento lo atendemos. Bienvenido.`
