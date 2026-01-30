@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS `consultations`;
 DROP TABLE IF EXISTS `equipments`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `correo`;
+DROP TABLE IF EXISTS `contacto`;
 
 -- Tabla de usuarios (registro / inicio de sesión)
 CREATE TABLE `users` (
@@ -31,16 +32,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `uq_users_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tabla de equipos
-
-CREATE TABLE  `contacto` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `correo` VARCHAR(150) NOT NULL,
-  `descripcion` TEXT(500) NOT NULL,
-  `fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- (Se elimina la tabla `contacto` antigua; se reemplaza más abajo por `contacts` integrada)
 
 CREATE TABLE `equipments` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -72,15 +64,27 @@ CREATE TABLE `consultations` (
   CONSTRAINT `fk_consultations_equipment` FOREIGN KEY (`equipment_id`) REFERENCES `equipments` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Tabla simple de contacto/correo (opcional)
-CREATE TABLE `correo` (
+-- Tabla de contacto integrada para el sitio web
+CREATE TABLE `contacts` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(100) NOT NULL,
-  `correo` VARCHAR(150) NOT NULL,
-  `descripcion` TEXT NOT NULL,
-  `fecha` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  `user_id` INT(11) DEFAULT NULL,
+  `name` VARCHAR(120) NOT NULL,
+  `email` VARCHAR(150) NOT NULL,
+  `phone` VARCHAR(50) DEFAULT NULL,
+  `subject` VARCHAR(200) DEFAULT NULL,
+  `message` TEXT NOT NULL,
+  `status` VARCHAR(50) NOT NULL DEFAULT 'new',
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_contacts_user` (`user_id`),
+  CONSTRAINT `fk_contacts_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Registros de ejemplo para contacto (algunos enlazados a usuarios existentes)
+INSERT INTO `contacts` (`user_id`, `name`, `email`, `phone`, `subject`, `message`, `status`) VALUES
+(2, 'Juan Pérez', 'juan@example.com', '+5215512345678', 'Soporte PC recepción', 'La PC de la recepción se reinicia sola varias veces al día.', 'new'),
+(3, 'María Gómez', 'maria@example.com', '+5215578901234', 'Presupuesto renovación', 'Necesitamos un presupuesto para renovar 10 equipos de oficina.', 'new'),
+(NULL, 'Cliente Externo', 'cliente@externo.com', NULL, 'Consulta general', '¿Ofrecen servicio fuera de la ciudad?', 'new');
 
 -- Datos de ejemplo: usuarios (incluye admin)
 -- Nota: Reemplazar `password_hash` con hash real (bcrypt/scrypt/argon2) en producción
