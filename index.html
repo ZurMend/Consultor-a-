@@ -4,41 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultoría de Reparación de Computadoras</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Consultoría de Reparación de Computadoras</h1>
-        <p>Ofrecemos servicios profesionales para la reparación y mantenimiento de equipos de cómputo.</p>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h2 class="logo">💻 TechRepair</h2>
+            <ul class="nav-menu">
+                <li><a href="#servicios" class="nav-link">Servicios</a></li>
+                <li><a href="#profesionales" class="nav-link">Profesionales</a></li>
+                <li><a href="#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Consultoría de Reparación de Computadoras</h1>
+            <p>Ofrecemos servicios profesionales para la reparación y mantenimiento de equipos de cómputo.</p>
+            <a href="#contacto" class="cta-button">Solicitar Servicio</a>
+        </div>
     </header>
 
     <section id="servicios">
-        <h2>Servicios Ofrecidos</h2>
-        <ul>
-            <li>Reparación de hardware</li>
-            <li>Instalación de software</li>
-            <li>Mantenimiento preventivo</li>
-            <li>Recuperación de datos</li>
-        </ul>
+        <div class="section-container">
+            <h2>Servicios Ofrecidos</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>🔧 Reparación de Hardware</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="service-content">
+                        <p>Cambio de piezas, diagnóstico de fallas, actualización de componentes, solución de problemas comunes.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>💾 Instalación de Software</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="service-content">
+                        <p>Sistemas operativos, programas especializados, antivirus y herramientas de seguridad.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>🛡️ Mantenimiento Preventivo</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="service-content">
+                        <p>Limpieza interna, optimización de rendimiento, revisión de seguridad, actualización de drivers.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>📁 Recuperación de Datos</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="service-content">
+                        <p>Discos dañados, eliminación accidental, migración de información, respaldos seguros.</p>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-header" onclick="toggleService(this)">
+                        <h3>📞 Asesoría Personalizada</h3>
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="service-content">
+                        <p>Consultoría para empresas y particulares, recomendaciones tecnológicas, soporte técnico.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <section id="profesionales">
-        <h2>Conoce a Nuestros Profesionales</h2>
-        <p>Contamos con un equipo de expertos en tecnología listos para ayudarte con cualquier problema que tengas con tu computadora.</p>
+        <div class="section-container">
+            <h2>Conoce a Nuestros Profesionales</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Técnico principal" class="avatar">
+                    <h3>Ing. Zuri Yamil</h3>
+                    <p class="role">Especialista en Recuperación de Datos</p>
+                    <p>Cuenta con habilidad y experiencia en el sector de las bases de datos y la recuperación de información.</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://randomuser.me/api/portraits/men/44.jpg" alt="Técnico secundario" class="avatar">
+                    <h3>Lic. Gustavo Zuppa</h3>
+                    <p class="role">Especialista en Hardware</p>
+                    <p>Experto en soluciones de hardware, cuenta con amplia experiencia en diagnóstico y reparación de equipos.</p>
+                </div>
+            </div>
+        </div>
     </section>
     <section id="contacto">
-        <h2>Contacto</h2>
-        <p>Si tienes alguna consulta o deseas solicitar nuestros servicios, no dudes en contactarnos.</p>
-    <form action="api/solicitudes/crear.php" method="POST">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
+        <div class="section-container">
+            <h2>Contacto</h2>
+            <p>Si tienes alguna consulta o deseas solicitar nuestros servicios, no dudes en contactarnos.</p>
+            <form action="api/solicitudes/crear.php" method="POST" class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo:</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+                    <span class="error-message" id="nombreError"></span>
+                </div>
 
-        <label for="correo">Correo:</label>
-        <input type="email" id="correo" name="correo" required>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico:</label>
+                    <input type="email" id="correo" name="correo" placeholder="tu@email.com" required>
+                    <span class="error-message" id="correoError"></span>
+                </div>
 
-        <label for="mensaje">Mensaje:</label>
-        <textarea id="mensaje" name="mensaje" required></textarea>
+                <div class="form-group">
+                    <label for="asunto">Asunto:</label>
+                    <input type="text" id="asunto" name="asunto" placeholder="¿Cuál es tu consulta?" required>
+                </div>
 
-        <button type="submit">Enviar</button>
-    </form>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje:</label>
+                    <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos más sobre tu problema..." required rows="5"></textarea>
+                    <span class="char-count" id="charCount">0/500</span>
+                </div>
+
+                <button type="submit" class="submit-button">Enviar Solicitud</button>
+                <span class="success-message" id="successMessage"></span>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Consultoría de Reparación de Computadoras. Todos los derechos reservados.</p>
+            <p>Teléfono: +1 (234) 567-8900 | Email: info@techrepair.com</p>
+        </div>
+    </footer>
 </body>
 </html>
