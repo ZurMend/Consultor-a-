@@ -34,26 +34,85 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             if (validateForm()) {
-                const successMessage = document.getElementById('successMessage');
-                if (successMessage) {
-                    successMessage.textContent = '¡Solicitud enviada correctamente! Nos pondremos en contacto pronto.';
-                    successMessage.classList.add('show');
-                    
-                    contactForm.reset();
-                    charCount.textContent = '0/500';
-                    
-                    setTimeout(() => {
-                        successMessage.classList.remove('show');
-                    }, 5000);
+                // Obtener datos del formulario
+                const formData = {
+                    nombre: document.getElementById('nombre').value.trim(),
+                    correo: document.getElementById('correo').value.trim(),
+                    asunto: document.getElementById('asunto').value.trim(),
+                    mensaje: document.getElementById('mensaje').value.trim()
+                };
+
+                // Cambiar botón a estado de carga
+                const submitBtn = contactForm.querySelector('.submit-button');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+
+                try {
+                    // Enviar solicitud al servidor
+                    const response = await fetch('/api/solicitudes/crear', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Mostrar mensaje de éxito
+                        const successMessage = document.getElementById('successMessage');
+                        if (successMessage) {
+                            successMessage.textContent = '¡Solicitud enviada correctamente! Nos pondremos en contacto pronto.';
+                            successMessage.classList.add('show');
+                            
+                            // Limpiar formulario
+                            contactForm.reset();
+                            document.getElementById('charCount').textContent = '0/500';
+                            
+                            // Ocultar mensaje después de 5 segundos
+                            setTimeout(() => {
+                                successMessage.classList.remove('show');
+                            }, 5000);
+                        }
+                    } else {
+                        // Mostrar error
+                        const errorMessage = document.getElementById('successMessage');
+                        if (errorMessage) {
+                            errorMessage.textContent = data.message || 'Error al enviar la solicitud';
+                            errorMessage.style.background = '#f8d7da';
+                            errorMessage.style.color = '#721c24';
+                            errorMessage.style.borderColor = '#f5c6cb';
+                            errorMessage.classList.add('show');
+                            
+                            setTimeout(() => {
+                                errorMessage.classList.remove('show');
+                            }, 5000);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    const errorMessage = document.getElementById('successMessage');
+                    if (errorMessage) {
+                        errorMessage.textContent = 'Error de conexión. Por favor, intenta de nuevo.';
+                        errorMessage.style.background = '#f8d7da';
+                        errorMessage.style.color = '#721c24';
+                        errorMessage.classList.add('show');
+                        
+                        setTimeout(() => {
+                            errorMessage.classList.remove('show');
+                        }, 5000);
+                    }
+                } finally {
+                    // Restaurar botón
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
                 }
-                
-                setTimeout(() => {
-                    contactForm.submit();
-                }, 500);
             }
         });
     }
