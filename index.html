@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultoría de Reparación de Computadoras</title>
+</head>
+<body>
+    <header>
+        <h1>Consultoría de Reparación de Computadoras</h1>
+        <p>Ofrecemos servicios profesionales para la reparación y mantenimiento de equipos de cómputo.</p>
+    </header>
+
+    <section id="servicios">
+        <h2>Servicios Ofrecidos</h2>
+        <ul>
+            <li>Reparación de hardware</li>
+            <li>Instalación de software</li>
+            <li>Mantenimiento preventivo</li>
+            <li>Recuperación de datos</li>
+        </ul>
+    </section>
+
+    <section id="profesionales">
+        <h2>Conoce a Nuestros Profesionales</h2>
+        <p>Contamos con un equipo de expertos en tecnología listos para ayudarte con cualquier problema que tengas con tu computadora.</p>
+    </section>
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <p>Si tienes alguna consulta o deseas solicitar nuestros servicios, no dudes en contactarnos.</p>
+    <form action="api/solicitudes/crear.php" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
+
+        <label for="mensaje">Mensaje:</label>
+        <textarea id="mensaje" name="mensaje" required></textarea>
+
+        <button type="submit">Enviar</button>
+    </form>
+</body>
+</html>
